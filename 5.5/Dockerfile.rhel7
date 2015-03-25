@@ -1,0 +1,21 @@
+FROM openshift/base-rhel7
+
+# This image provides an Apache+PHP environment for running PHP
+# applications.
+
+MAINTAINER Ben Parees <bparees@redhat.com>
+
+# Image metadata
+ENV PHP_VERSION           5.5
+ENV IMAGE_DESCRIPTION     PHP 5.5
+ENV IMAGE_TAGS            php,php55
+ENV IMAGE_EXPOSE_SERVICES 8080:http
+
+RUN yum-config-manager --enable rhel-server-rhscl-7-rpms && \
+    yum-config-manager --enable rhel-7-server-optional-rpms && \
+    yum install -y --setopt=tsflags=nodocs httpd24 php55 && \
+    yum clean all -y
+
+USER default
+
+EXPOSE 8080
