@@ -1,11 +1,9 @@
 #!/bin/bash
 
-source ./.bashrc
-
 set -e
 
 echo "---> Installing application source"
-cp -Rf /tmp/src/* ./
+cp -Rf /tmp/src/* /opt/openshift/www/php/
 
 if [ -f ${OPENSHIFT_REPO_DIR}composer.json ]; then
     echo "Installing dependencies from composer.json... "
@@ -20,9 +18,3 @@ if [ -f ${OPENSHIFT_REPO_DIR}composer.json ]; then
 	   echo -e "\nConsider adding a composer.lock file into your source repository\n"
     fi
 fi
-
-
-# Symlinking the application into dir from which httpd serves the app.
-# NOTE: This is only possible due to the fact the the image is running under root user. 
-rm -rf /opt/rh/httpd24/root/var/www/html/
-ln -s /opt/openshift/src/ /opt/rh/httpd24/root/var/www/html

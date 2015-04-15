@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# For SCL enablement
-source ./.bashrc
+source /opt/openshift/httpd_util.sh
 
 set -e
-exec httpd -C 'Include /opt/openshift/httpd.conf' -D FOREGROUND
-#exec httpd -C 'Include /opt/openshift/httpd.conf' -D FOREGROUND
-#exec httpd -D FOREGROUND
+
+echo "---> Adding additional Apache configuration for PHP"
+cp /opt/openshift/10-php.conf /opt/openshift/httpd/conf.d/
+
+configure_httpd
+exec_httpd
